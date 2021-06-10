@@ -1,6 +1,7 @@
-var margin = {top: 1, right: 1, bottom: 1, left: 1},
+/*var margin = {top: 1, right: 1, bottom: 1, left: 1},
             width = 980 - margin.left - margin.right,
-            height = 450 - margin.top - margin.bottom;
+            height = 450 - margin.top - margin.bottom;*/
+        var width=600, height=500;
         
         d3.queue()
         .defer(d3.json,"https://raw.githubusercontent.com/codeforamerica/click_that_hood/master/public/data/romania.geojson")
@@ -19,8 +20,11 @@ var margin = {top: 1, right: 1, bottom: 1, left: 1},
         var data1=d3.json("https://raw.githubusercontent.com/codeforamerica/click_that_hood/master/public/data/romania.geojson")
         var data2=d3.csv("static/event_coords_data.csv")
         
-        var scale = 200;
-        var projection = d3.geoMercator().scale(scale).translate([width / 2, height / 2]);
+        //var scale = 400;
+        //var projection = d3.geoMercator().scale(scale).translate([width / 2, height / 2]).attr("id","project");
+        var projection = d3.geoMercator().center([2, 47]).scale(2000).translate([width / 1.5, height / 1.5]);//.attr("cx", 50).attr("cy", 90);
+
+        d3.select("#project").attr("align","center");
         
         console.log(data2);
         
@@ -30,9 +34,6 @@ var margin = {top: 1, right: 1, bottom: 1, left: 1},
             .data(data1.features)
             .enter();
             
-            
-            
-            var projection = d3.geoMercator().center([100, 47]).scale(scale).translate([width / 2, height / 1.5]);
             var path = d3.geoPath().projection(projection);
             
             var areas = g.append("path")
@@ -40,18 +41,9 @@ var margin = {top: 1, right: 1, bottom: 1, left: 1},
             .attr("class", "area")
             .attr("fill", "#8FBC8F")
             .attr("stroke", "black")
-            .attr("stroke-width",.1)
-            .attr("cursor", "pointer");
-            
-            d3.selectAll('#map').attr("transform", "scale(100)");
+            .attr("stroke-width",.4);
             
             g = canvas.append("g");
-            
-             var colorScale = d3.scaleLinear()
-            .domain([20, d3.max(data2, function(d){
-                return d.CoL;
-            })])
-            .range(["yellow", "red"]);
             
              var tip = d3.tip()
                 .attr("class", "d3-tip")
@@ -59,23 +51,18 @@ var margin = {top: 1, right: 1, bottom: 1, left: 1},
                 .html(function(d) {
                     
                    return "Város: " + d.city_name + "<br>" + "Esemény: " + d.event + "<br>" ;
-                //console.log(d.x_coord)
-                            /*"Country: " + d.Country + "<br>" +
-                                "Cost of Living Index: " + d.CoL; */
                     
                 });
                     
-
             canvas.call(tip);
-            
-             
             
             g.selectAll(".city-circle")
             .data(data2)
             .enter()
             .append("circle")
+            .attr("fill", "red")
             .attr("stroke","black")
-            .attr("r",.2)
+            .attr("r", 3)
             .attr("cx", function(d){
                 var coordinates = projection([d.x_coord, d.y_coord])
                 return coordinates[0];
@@ -84,7 +71,19 @@ var margin = {top: 1, right: 1, bottom: 1, left: 1},
                 var coordinates = projection([d.x_coord, d.y_coord])
                 return coordinates[1];
             })
-            .attr("fill", function(d){ return colorScale(d.CoL)}).style("opacity",.7)
-            .on("mouseover",tip.show).attr("cursor","pointer")
+            
+            .on("mouseover",tip.show).attr("cursor","crosshair")
             .on("mouseout", tip.hide);
+
+            var tip = d3.tip()
+            .attr("class", "d3-tip")
+            .offset([-10, 0])
+            .html(function(d) {
+                
+               return "Város: " + d.city_name + "<br>" + "Esemény: " + d.event + "<br>" ;
+                
+            });
+                
+
+            canvas.call(tip);
         }
