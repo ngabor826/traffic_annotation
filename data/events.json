@@ -1,15 +1,19 @@
 {
     "traffic_jam": [
         "dugo",
-        "torlodas"
+        "torlodas",
+        "sor",
+        "fennakadas"
     ],
     "accident": [
-        "baleset"
+        "baleset",
+        "karambol"
     ],
     "radar": [
         "radar",
         "rendor",
-        "pisztolyos"
+        "pisztolyos",
+        "mcv"
     ],
     "bear": [
         "maci",

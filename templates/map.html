@@ -8,21 +8,50 @@
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static',filename = 'map.css') }}">
     <script type="text/javascript" src="{{ url_for('static',filename = 'map.js') }}" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
 
 
 </head>
 
 <body>
-    
-    <form method="POST">
-        <input name="text">
-        <input type="submit">
-    
+    <!-- <form method="POST"> -->
+    <form id="form">
+        <input id="input" name="text">
+        <input id="submit_btn" type="submit" value="Küldés">
     </form>
     
-    <div id="map" ></div>
-    
+    <div id="map"></div>
     <div id="rom"></div>
+
+    <!-- SocketIO communication -->
+    <script type="text/javascript" charset="utf-8">
+        var input = document.getElementById("input")
+        var form = document.getElementById("form")
+        console.log(input)
+        
+        var socket = io();
+        socket.on('connect', function() {
+            console.log('Established connection to server.')
+            socket.emit('conn_event', {data: 'Client is connected.'});
+        });
+
+        socket.on('redraw', function() {
+            console.log("Got redraw request")
+            
+            d3.queue()
+            .defer(d3.json,"https://raw.githubusercontent.com/codeforamerica/click_that_hood/master/public/data/romania.geojson")
+            .defer(d3.csv, "static/event_coords_data.csv")
+            .await(ready)
+        });
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            if (input.value) {
+                socket.emit('user_input', input.value);
+                input.value = '';
+            }
+        })
+    </script>
     
 </body>
 

@@ -1,24 +1,47 @@
-.canvas{
-        position: absolute;
-        top: 25%;
-        left: 15%;
-        background: lightblue;
-        border-width: thick;
-        border-style: solid;
-    }
+.canvas {
+    position: absolute;
+    top: 10%;
+    left: 5%;
+    background: lightblue;
+    border-width: thick;
+    border-style: solid;
+}
     
-    .d3-tip{
-        font-family: 'Oswald', sans-serif;
-        font-size: 15px;
-        line-height: 1;
-        padding: 7px;
-        border: 4px;
-        line-height: 1.6rem;
-        width: 26%;
-        background: khaki;
-        border-width: medium;
-        border-style: solid;
-    }
+.d3-tip {
+    font-family: 'Oswald', sans-serif;
+    font-size: 18px;
+    line-height: 1;
+    padding: 7px;
+    border: 4px;
+    line-height: 1.6rem;
+    width: 13%;
+    background: khaki;
+    border-width: medium;
+    border-style: solid;
+}
+
+#input {
+    font-size: medium;
+    width: 90%;
+    margin: auto;
+    padding: 12px;
+}
+
+#submit_btn {
+    /* height: 5%; */
+    font-size: x-large;
+    padding: 8px;
+}
+
+/* input[type=text], select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+} */
 
 /*#rom{
     position: absolute;
